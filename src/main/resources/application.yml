@@ -1,0 +1,14 @@
+#  spring:
+#    application:
+#      name: login-getway
+#  server:
+#    port: 8300
+  
+#  eureka:
+#    client:
+#      registerWithEureka: true
+#      fetchRegistry: true
+#      serviceUrl:
+#        defaultZone: http://localhost:8761/eureka/
+#    instance:
+#      hostname: localhost
