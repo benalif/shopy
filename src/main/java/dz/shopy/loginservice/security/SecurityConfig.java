@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Autowired
+	private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 
 	@Autowired
@@ -58,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().disable().authorizeRequests().antMatchers(POST,"/auth/*").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(STATELESS);
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers(POST, "/auth/*").permitAll().anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				.accessDeniedHandler(customAccessDeniedHandler).and().sessionManagement()
+				.sessionCreationPolicy(STATELESS);
 
 		http.httpBasic().disable();
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

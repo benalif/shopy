@@ -8,21 +8,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-
-		// response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"sorry you are not
-		// authorized to access to this resource!");
-
-		this.writeResponse(response, SC_UNAUTHORIZED, "Unauthorized");
+	public void handle(HttpServletRequest request, HttpServletResponse response,
+			AccessDeniedException accessDeniedException) throws IOException, ServletException {
+		this.writeResponse(response, SC_UNAUTHORIZED, "Forbidden");
 
 	}
 
@@ -33,4 +29,5 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		httpResponse.getOutputStream().write(("\"message\":\"" + message + "\"}").getBytes());
 		httpResponse.getOutputStream().flush();
 	}
+
 }
