@@ -1,6 +1,6 @@
 package dz.shopy.loginservice.security;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
-		this.writeResponse(response, SC_UNAUTHORIZED, "Forbidden");
+		this.writeResponse(response, SC_FORBIDDEN, "Forbidden");
 
 	}
 
