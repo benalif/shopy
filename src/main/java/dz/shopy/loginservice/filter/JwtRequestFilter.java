@@ -1,5 +1,8 @@
 package dz.shopy.loginservice.filter;
 
+import static dz.shopy.loginservice.helper.ConstantHelper.AUTHORIZATION;
+import static dz.shopy.loginservice.helper.ConstantHelper.BEARER_PREFIX;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -31,13 +34,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-		final String requestTokenHeader = request.getHeader("Authorization");
+		final String requestTokenHeader = request.getHeader(AUTHORIZATION);
 		String username = null;
 		String jwtToken = null;
 
 // JWT Token is in the form "Bearer token". Remove Bearer word and get
 // only the Token
-		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+		if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER_PREFIX)) {
 			jwtToken = requestTokenHeader.substring(7);
 			try {
 				username = jwtTokenUtil.getUsernameFromToken(jwtToken);

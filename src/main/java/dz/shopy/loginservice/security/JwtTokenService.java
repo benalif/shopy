@@ -1,5 +1,6 @@
 package dz.shopy.loginservice.security;
 
+import static dz.shopy.loginservice.helper.ConstantHelper.TOKEN_PREFIX;
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import dz.shopy.loginservice.helper.ConstantHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -28,8 +30,6 @@ public class JwtTokenService implements Serializable {
 	private static final long serialVersionUID = -2550185165626007488L;
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	private static final String ROLES = "ROLES";
-	private static final String UUID_KEY = "uuid";
-	private static final String TOKEN_PREFIX = "TOKEN_";
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -44,7 +44,7 @@ public class JwtTokenService implements Serializable {
 
 	// retrieve token uuid
 	public String getUuidFromToken(String token) {
-		return getClaimFromToken(token, claim -> (String) claim.get(UUID_KEY));
+		return getClaimFromToken(token, claim -> (String) claim.get(ConstantHelper.UUID));
 	}
 
 	// retrieve expiration date from jwt token
@@ -83,7 +83,7 @@ public class JwtTokenService implements Serializable {
 				.collect(Collectors.toList());
 
 		claims.put(ROLES, roles);
-		claims.put(UUID_KEY, UUID.randomUUID().toString());
+		claims.put(ConstantHelper.UUID, UUID.randomUUID().toString());
 		final UserDetails user = (UserDetails) auth.getPrincipal();
 		return doGenerateToken(claims, user.getUsername());
 	}

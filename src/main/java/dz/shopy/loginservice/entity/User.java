@@ -42,7 +42,7 @@ public class User {
 	private String username;
 
 	@NotNull
-	@NotEmpty(message = "username should not be empty")
+	@NotEmpty(message = "password should not be empty")
 	@Pattern(regexp = "^[a-zA-Z@#$%^&+=](?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}[a-zA-Z0-9]$", message = "password doesn't respect security policy")
 	@Column(name = "password")
 	private String password;
